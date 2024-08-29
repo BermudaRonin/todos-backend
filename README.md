@@ -24,4 +24,5 @@ The backend component for a collaborative Todos application.
 #### <font color="#000">Documentation</font>
 
 - **[API Endpoints](./docs/enpoints.md)**
+- **[Diagrams](./docs/diagrams.md)**
   
