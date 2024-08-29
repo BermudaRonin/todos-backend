@@ -1,7 +1,7 @@
 {
   "name": "todos-backend",
   "description": "The backend component for a collaborative Todos application.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": "https://github.com/BermudaRonin/todos-backend.git",
   "keywords": [
     "todos",
