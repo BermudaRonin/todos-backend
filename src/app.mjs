@@ -1,12 +1,9 @@
 import e from "express";
 import morgan from "morgan";
 import connectDB from "./config/db.mjs";
+import api from "./api/index.mjs";
 
 const server = e();
-
-server.use(morgan("dev"));
-server.use(e.json());
-
 
 await connectDB({
     username: process.env.DB_USERNAME,
@@ -15,6 +12,12 @@ await connectDB({
     clusterName: process.env.DB_CLUSTER_NAME,
     dbName: process.env.DB_NAME,
 })
+
+server.use(morgan("dev"));
+server.use(e.json());
+
+
+server.use("/api", api)
 
 const PORT = process.env.PORT;
 
