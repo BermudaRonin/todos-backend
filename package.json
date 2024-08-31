@@ -12,7 +12,7 @@
   "type": "module",
   "main": "src/app.mjs",
   "scripts": {
-    "dev": "nodemon --env-file .local.env src/app.mjs",
+    "dev": "nodemon --env-file .env.local src/app.mjs",
     "prod": "nodemon --env-file .env src/app.mjs"
   },
   "author": {

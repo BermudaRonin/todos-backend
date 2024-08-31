@@ -3,7 +3,7 @@ node_modules
 
 # Environement variables
 .env
-.local.env
+.env.local
 
 # Development
 TASKS.md
