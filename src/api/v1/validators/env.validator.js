@@ -1,4 +1,4 @@
-import { validate, Validation } from "../utils/Validator.mjs";
+import { validate, Validation } from "../utils/Validator.js";
 
 export default class EnvValidator {
 

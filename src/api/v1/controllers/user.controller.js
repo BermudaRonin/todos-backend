@@ -1,8 +1,8 @@
-import User from "../services/User.mjs";
-import AccessToken from "../services/AccessToken.mjs";
+import User from "../services/User.js";
+import AccessToken from "../services/AccessToken.js";
 
-import Controller from "../utils/Controller.mjs";
-import { Throw } from "../utils/Errors.mjs";
+import Controller from "../utils/Controller.js";
+import { Throw } from "../utils/Errors.js";
 
 export class UserMiddleware {
     static getCurerntUser = async (req, res, next) => {

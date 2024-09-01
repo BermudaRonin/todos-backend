@@ -1,11 +1,11 @@
-import UserPassword from "./UserPassword.mjs";
+import UserPassword from "./UserPassword.js";
 
-import { UserModel } from "../models/user.model.mjs";
+import { UserModel } from "../models/user.model.js";
 
-import UserValidator from '../validators/user.validator.mjs';
-import UserFormatter from "../formatters/user.formatter.mjs";
+import UserValidator from '../validators/user.validator.js';
+import UserFormatter from "../formatters/user.formatter.js";
 
-import { Throw } from "../utils/Errors.mjs";
+import { Throw } from "../utils/Errors.js";
 
 
 export default class User {

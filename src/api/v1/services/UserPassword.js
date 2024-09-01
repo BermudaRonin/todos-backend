@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
 
-import { Throw } from "../utils/Errors.mjs";
+import { Throw } from "../utils/Errors.js";
 
-import EnvValidator from "../validators/env.validator.mjs";
-import UserValidator from "../validators/user.validator.mjs";
+import EnvValidator from "../validators/env.validator.js";
+import UserValidator from "../validators/user.validator.js";
 
 
 const saltRounds = parseInt(process.env.SALT_ROUNDS);

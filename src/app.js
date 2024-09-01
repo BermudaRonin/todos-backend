@@ -1,7 +1,7 @@
 import e from "express";
 import morgan from "morgan";
-import connectDB from "./config/db.mjs";
-import api from "./api/index.mjs";
+import connectDB from "./config/db.js";
+import api from "./api/index.js";
 
 const server = e();
 
@@ -16,10 +16,9 @@ await connectDB({
 server.use(morgan("dev"));
 server.use(e.json());
 
-
 server.use("/api", api)
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, (err) => {
     if (err) return console.error("▶️▶️▶️ Server KO ", err)

@@ -1,4 +1,4 @@
-import { Catch } from "./Errors.mjs";
+import { Catch } from "./Errors.js";
 
 const isValidStatusCode = value => typeof value === 'number' && value >= 100 && value < 600;
 const isMessage = value => typeof value == 'string';

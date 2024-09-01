@@ -10,10 +10,12 @@
     "mongodb"
   ],
   "type": "module",
-  "main": "src/app.mjs",
+  "main": "src/app.js",
   "scripts": {
-    "dev": "nodemon --env-file .env.local src/app.mjs",
-    "prod": "nodemon --env-file .env src/app.mjs"
+    "start:dev": "node --env-file .env.local src/app.js",
+    "watch:dev": "nodemon --exec npm run start:dev",
+    "start:prod": "node --env-file .env src/app.js",
+    "watch:prod": "nodemon --exec npm run start:prod"
   },
   "author": {
     "name": "Bermuda Ronin",

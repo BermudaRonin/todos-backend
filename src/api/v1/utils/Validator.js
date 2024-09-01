@@ -1,4 +1,4 @@
-import { Throw } from "./Errors.mjs";
+import { Throw } from "./Errors.js";
 
 export class Validation {
     constructor(condition, message, statusCode) {

@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken'
 
-import UserValidator from '../validators/user.validator.mjs';
-import EnvValidator from '../validators/env.validator.mjs';
-import UserFormatter from '../formatters/user.formatter.mjs';
+import UserValidator from '../validators/user.validator.js';
+import EnvValidator from '../validators/env.validator.js';
+import UserFormatter from '../formatters/user.formatter.js';
 
 const privateKey = process.env.JWT_PK;
 
