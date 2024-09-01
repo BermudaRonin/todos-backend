@@ -16,6 +16,8 @@ await connectDB({
 server.use(morgan("dev"));
 server.use(e.json());
 
+server.get("/", (req, res) => res.send("Server 👍"));
+
 server.use("/api", api)
 
 const PORT = process.env.PORT || 3000;

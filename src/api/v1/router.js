@@ -15,6 +15,7 @@ users.get("/me", UserMiddleware.getCurerntUser, UserController.getCurrentUser);
 
 const version = Router();
 
+version.get("/", (req, res) => res.send("API V1 👍"));
 version.use("/users", users);
 // version.use("/todos", todos);
 // version.use("/lists", lists);
