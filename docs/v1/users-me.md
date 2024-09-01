@@ -36,6 +36,7 @@ Get authenticated user.
         "user" : {
             "id": "",
             "email": "",
+            "username": "",
             "createdAt" : "",
             "updatedAt" : ""
         },

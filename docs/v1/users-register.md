@@ -17,8 +17,9 @@ Create a user and generates a token.
 
 ```JSON
 {
-    "email": "",
-    "password": "",
+    "username": "", // required
+    "email": "", // required
+    "password": "", // required
 }
 ```
 </details>

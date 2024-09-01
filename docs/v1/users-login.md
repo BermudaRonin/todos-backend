@@ -17,8 +17,8 @@ Validate user credentials and generate a token.
 
 ```JSON
 {
-    "email": "",
-    "password": "",
+    "email": "", // required
+    "password": "", // required
 }
 ```
 </details>
@@ -38,6 +38,7 @@ Validate user credentials and generate a token.
         "user" : {
             "id": "",
             "email": "",
+            "username" : "",
             "createdAt" : "",
             "updatedAt" : ""
         }
