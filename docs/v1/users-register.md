@@ -39,6 +39,7 @@ Create a user and generates a token.
         "user" : {
             "id": "",
             "email": "",
+            "username" : "",
             "createdAt" : "",
             "updatedAt" : ""
         }

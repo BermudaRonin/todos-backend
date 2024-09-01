@@ -1,47 +1,64 @@
-import UserModel from "../models/user.model.mjs";
+import UserPassword from "./UserPassword.mjs";
 
-import UserPassword from "../helpers/UserPassword.mjs";
+import { UserModel } from "../models/user.model.mjs";
 
-import Err from "../utils/Err.mjs";
-import Formatter from "../utils/Formatter.mjs";
-import { ValidateUser } from "../utils/Validator.mjs";
+import UserValidator from '../validators/user.validator.mjs';
+import UserFormatter from "../formatters/user.formatter.mjs";
+
+import { Throw } from "../utils/Errors.mjs";
+
 
 export default class User {
 
-    static createUser = async (userCredentials) => {
-        await ValidateUser.registrationCredentials(userCredentials);
 
-        const hashedPassword = await UserPassword.hash(userCredentials.password);
+    static createUser = async credentials => {
+
+        await UserValidator.registration(credentials);
+
+        const hashedPassword = await UserPassword.hash(credentials.password);
 
         const user = await UserModel.create({
-            username: userCredentials.username,
-            email: userCredentials.email,
+            username: credentials.username,
+            email: credentials.email,
             hashedPassword,
         });
 
-        if (!user) Err.throw("User not created");
+        if (!user) Throw("User not created");
 
-        return Formatter.user(user);
+        return UserFormatter.user(user);
     }
 
-    static getUserByCredentials = async (userCredentials) => {
-        await ValidateUser.loginCredentials(userCredentials);
+    static getUserByCredentials = async (credentials) => {
+        await UserValidator.login(credentials);
 
-        const user = await UserModel.findOne({ email: userCredentials.email });
-        if (!user) Err.throw("User not found");
+        let user = null;
+        let field = "";
 
-        await UserPassword.verify(userCredentials.password, user.hashedPassword);
+        if ("username" in credentials) {
+            field = "username"
+            user = await UserModel.findOne({ username: credentials.username });
+        }
 
-        return Formatter.user(user);
+        if ("email" in credentials) {
+            field = "email"
+            user = await UserModel.findOne({ email: credentials.email });
+        }
+
+        if (!user) Throw("User not found", 404, { field })
+
+        await UserPassword.verify(credentials.password, user.hashedPassword);
+
+        return UserFormatter.user(user);
     }
 
     static getUserByAuthPayload = async (authPayload) => {
-        await ValidateUser.authPayload(authPayload);
+
+        await UserValidator.authPayload(authPayload);
 
         const user = await UserModel.findById(authPayload.id);
-        if (!user) Err.throw("User not found");
+        if (!user) Throw("User not found", 404, { field: "access-token" })
 
-        return Formatter.user(user);
+        return UserFormatter.user(user);
     }
 }
 

@@ -1,9 +1,7 @@
-export default class Formatter {
-
-
-    static authPayload = (user) => ({
-        id: user.id
-    })
+export default class UserFormatter {
+    // static id = user => user.id;
+    // static email = user => user.email;
+    // static username = user => user.username;
 
     static user = (user) => ({
         id: user.id,
@@ -13,9 +11,13 @@ export default class Formatter {
         updatedAt: user.updatedAt,
     })
 
+    static authPayload = (user) => ({
+        id: user.id
+    })
+
     static authHeader = (authHeader) => ({
         mode: authHeader.split(" ")[0],
         accessToken: authHeader.split(" ")[1],
     })
-
+    
 }

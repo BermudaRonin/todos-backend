@@ -16,8 +16,14 @@ Validate user credentials and generate a token.
 <summary>Body</summary>
 
 ```JSON
+// Option 1
 {
     "email": "", // required
+    "password": "", // required
+}
+// Option 2
+{
+    "username": "", // required
     "password": "", // required
 }
 ```

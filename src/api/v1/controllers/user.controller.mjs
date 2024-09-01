@@ -1,97 +1,63 @@
 import User from "../services/User.mjs";
+import AccessToken from "../services/AccessToken.mjs";
 
-import AccessToken from "../helpers/AccessToken.mjs";
-import Err from "../utils/Err.mjs";
-
+import Controller from "../utils/Controller.mjs";
+import { Throw } from "../utils/Errors.mjs";
 
 export class UserMiddleware {
-    static getCurerntUser = async (request = new Request, response = new Response, next) => {
+    static getCurerntUser = async (req, res, next) => {
+        const { request, sendError } = new Controller(req, res);
+
         try {
             const headers = request.headers;
-            const accessToken = await AccessToken.extract(headers);
+            const authHeader = headers["authorization"];
+
+            const accessToken = await AccessToken.extract(authHeader);
             const authPayload = await AccessToken.getAuthPayload(accessToken);
 
-            request.authPayload = authPayload;
+            req.authPayload = authPayload;
             next();
 
         } catch (error) {
-            return response.status(500).json({
-                success: false,
-                message: "Server catch err : " + error.message,
-                data: null
-            })
+            sendError(error);
         }
     }
 }
 
 export class UserController {
 
-    static register = async (request = new Request, response = new Response) => {
+    static register = async (req, res) => {
+        const { request, sendJSON, sendError } = new Controller(req, res);
         try {
-            const userCredentials = request.body;
-            const user = await User.createUser(userCredentials);
+            const user = await User.createUser(request.body);
             const accessToken = await AccessToken.generate(user);
-
-            return response.status(201).json({
-                success: true,
-                message: "User created and authenticated!",
-                data: {
-                    accessToken,
-                    user,
-                }
-            })
+            sendJSON(201, "User created and authenticated!", { accessToken, user })
         } catch (error) {
-            return response.status(500).json({
-                success: false,
-                message: "Server catch err : " + error.message,
-                data: null
-            })
+            sendError(error);
         }
     }
 
-    static login = async (request = new Request, response = new Response) => {
+    static login = async (req, res) => {
+        const { request, sendJSON, sendError } = new Controller(req, res);
         try {
-            const userCredentials = request.body;
-            const user = await User.getUserByCredentials(userCredentials);
+            const user = await User.getUserByCredentials(request.body);
             const accessToken = await AccessToken.generate(user);
-
-            return response.status(201).json({
-                success: true,
-                message: "User validated and authenticated!",
-                data: {
-                    accessToken,
-                    user,
-                }
-            })
+            sendJSON(200, "User validated and authenticated!", { accessToken, user })
         } catch (error) {
-            return response.status(500).json({
-                success: false,
-                message: "Server catch err : " + error.message,
-                data: null
-            })
+            sendError(error);
         }
     }
 
-    static getCurrentUser = async (request = new Request, response = new Response) => {
+    static getCurrentUser = async (req, res) => {
+        const { request, sendJSON, sendError } = new Controller(req, res);
         try {
             const authPayload = request.authPayload;
-            if (!authPayload) Err.throw(" No auth payload");
-
+            if (!authPayload) Throw("No auth payload, check middleware", 400);
+            
             const user = await User.getUserByAuthPayload(authPayload);
-
-            return response.status(201).json({
-                success: true,
-                message: "User fetched!",
-                data: {
-                    user,
-                }
-            })
+            sendJSON(200, "User fetched!", { user })
         } catch (error) {
-            return response.status(500).json({
-                success: false,
-                message: "Server catch err : " + error.message,
-                data: null
-            })
+            sendError(error);
         }
     }
 
