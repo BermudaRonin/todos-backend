@@ -1,69 +1,69 @@
+import Err from "./Err.mjs";
+
 export default class Validator {
-
-
-    // Configuration
-
-    static saltRounds = async (saltRounds) => {
-        const isValid = typeof saltRounds == 'number' && saltRounds && saltRounds > 0
-        if (!isValid) {
-            throw new Error("Invalid saltRounds config")
-        }
-    }
-    static privateKey = async (privateKey) => {
-        if (!privateKey) {
-            throw new Error("Invalid privateKey config")
-        }
-    }
-
-    // Globals
-
     static uid = async (id) => {
         if (!id) {
             throw new Error("ID is missing")
         }
     }
 
-    // User
-
-    static userEmail = async (userEmail) => {
-        if (!userEmail) {
-            throw new Error("User email is missing")
-        }
-    }
-
-    static userPlainPassword = async (plainPassword) => {
-        if (!plainPassword) {
-            throw new Error("Password is missing")
-        }
-    }
-    static userHashedPassword = async (hashedPassword) => {
-        if (!hashedPassword) {
-            throw new Error("Hashed password is missing")
-        }
-    }
-
-    static accessToken = async (accessToken) => {
-        if (!accessToken) {
-            throw new Error("Access Token is missing")
-        }
-    }
-
-    static credentials = async (credentials) => {
-        await this.userEmail(credentials?.email);
-        await this.userPlainPassword(credentials?.password);
-    }
-
-    static authPayload = async (authPayload) => {
-        await this.uid(authPayload?.id);
-    }
-
-    static authorizationHeader = async (authorizationHeader) => {
-        if (!authorizationHeader) {
-            throw new Error("Authorization Header is missing")
-        }
-    }
-
-    // 
-
 
 }
+export class ValidateUser {
+    // Single
+    static id = Validator.uid;
+    static email = async (value = "") => {
+        const conditions = [value, typeof value == "string", value.includes("@"), value.length > 6]
+        if (conditions.includes(false)) return Err.throw("Invalid user email");
+    };
+    static username = async (value = "") => {
+        const conditions = [value, typeof value == "string", value.length > 6]
+        if (conditions.includes(false)) return Err.throw("Invalid username");
+    };
+    static plainPassword = async (value = "") => {
+        const conditions = [value, typeof value == "string", value.length > 6]
+        if (conditions.includes(false)) return Err.throw("Invalid password");
+    };
+    static hashedPassword = async (value = "") => {
+        const conditions = [value, typeof value == "string", value.length > 6]
+        if (conditions.includes(false)) return Err.throw("Invalid hashed password");
+    };
+    static accessToken = async (value = "") => {
+        const conditions = [value, typeof value == "string"]
+        if (conditions.includes(false)) return Err.throw("Invalid Access Token");
+    };
+
+    // Other
+    static authHeader = async (value = "") => {
+        const conditions = [value, value.includes("Bearer")];
+        if (conditions.includes(false)) return Err.throw("Invalid auth header");
+    }
+
+    // Composed
+    static registrationCredentials = async (value = {}) => {
+        await this.username(value.username);
+        await this.email(value.email);
+        await this.plainPassword(value.password);
+    };
+    static loginCredentials = async (value = {}) => {
+        await this.email(value.email);
+        await this.plainPassword(value.password);
+    };
+    static authPayload = async (value = "") => {
+        await this.id(value.id);
+    }
+
+}
+
+export class ValidateEnvironementVariable {
+    static saltRounds = async (value = 0) => {
+        const conditions = [value, typeof value == "number", value > 0];
+        if (conditions.includes(false)) return Err.throw("Invalid SaltRounds (env)");
+    }
+    static privateKey = async (value = "") => {
+        const conditions = [value, typeof value == "string"];
+        if (conditions.includes(false)) return Err.throw("Invalid privateKey (env)");
+    }
+}
+
+

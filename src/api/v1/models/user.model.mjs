@@ -1,6 +1,9 @@
-import { Schema , model } from "mongoose"
+import { Schema, model } from "mongoose"
 
 const userSchema = new Schema({
+    username: {
+        type: Schema.Types.String,
+    },
     email: {
         type: Schema.Types.String,
         required: true,

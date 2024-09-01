@@ -36,8 +36,8 @@ export class UserController {
                 success: true,
                 message: "User created and authenticated!",
                 data: {
+                    accessToken,
                     user,
-                    accessToken
                 }
             })
         } catch (error) {
@@ -59,8 +59,8 @@ export class UserController {
                 success: true,
                 message: "User validated and authenticated!",
                 data: {
+                    accessToken,
                     user,
-                    accessToken
                 }
             })
         } catch (error) {

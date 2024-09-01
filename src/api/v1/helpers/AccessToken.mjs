@@ -1,40 +1,39 @@
 import jwt from 'jsonwebtoken'
 import Formatter from '../utils/Formatter.mjs';
-import Validator from '../utils/validator.mjs';
+import { ValidateEnvironementVariable, ValidateUser } from '../utils/Validator.mjs';
+
+const privateKey = process.env.JWT_PK;
 
 export default class AccessToken {
 
     static generate = async (user) => {
+
         const authPayload = Formatter.authPayload(user);
-        await Validator.authPayload(authPayload);
 
-        const privateKey = process.env.JWT_PK;
-        await Validator.privateKey(privateKey);
+        await ValidateUser.authPayload(authPayload);
+        await ValidateEnvironementVariable.privateKey(privateKey);
 
-        // const options = { algorithm: 'RS256' }
-        const options = {}
-        const accessToken = jwt.sign(authPayload, privateKey, options);
+        const accessToken = jwt.sign(authPayload, privateKey);
         return accessToken;
     }
 
     static getAuthPayload = async (accessToken) => {
-        await Validator.accessToken(accessToken);
+        await ValidateUser.accessToken(accessToken);
+        await ValidateEnvironementVariable.privateKey(privateKey);
 
-        const privateKey = process.env.JWT_PK;
-        await Validator.privateKey(privateKey);
-        const options = {}
-
-        const authPayload = jwt.verify(accessToken, privateKey, options);
+        const authPayload = jwt.verify(accessToken, privateKey);
         return authPayload
     }
 
     static extract = async (headers) => {
-        const authorizationHeader = headers["authorization"];
-        await Validator.authorizationHeader(authorizationHeader);
-        const { mode, token } = Formatter.authorizationHeader(authorizationHeader);
+        const authHeader = headers["authorization"];
 
-        await Validator.accessToken(token);
+        await ValidateUser.authHeader(authHeader);
 
-        return token
+        const { accessToken } = Formatter.authHeader(authHeader);
+
+        await ValidateUser.accessToken(accessToken);
+
+        return accessToken
     }
 }
