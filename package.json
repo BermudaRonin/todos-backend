@@ -14,8 +14,7 @@
   "scripts": {
     "start:dev": "node --env-file .env.local src/app.js",
     "watch:dev": "nodemon --exec npm run start:dev",
-    "start:prod": "node --env-file .env src/app.js",
-    "watch:prod": "nodemon --exec npm run start:prod"
+    "start:prod": "node src/app.js"
   },
   "author": {
     "name": "Bermuda Ronin",
