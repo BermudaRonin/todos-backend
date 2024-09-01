@@ -1,14 +1,20 @@
 [⟵ Back](../README.md)
 
+
+
 # Documentation
 
-### Endpoints
+## Guide
 
-#### V1
+[Request](./request.md)
+[Response](./response.md)
 
-**User & Authentication**
+## Endpoint
 
-- [User registration](./v1/users-register.md)
-- [User login](./v1/users-login.md)
-- [Get user](./v1/users-me.md)
+User & Authentication
 
+| Action                                        | Method    | Endpoint          | Privacy  |
+|-----------------------------------------------|-----------|-------------------|----------|
+| [Register](./endpoints/register.md)           | `POST`    | `/users/register` | Public   |
+| [Login](./endpoints/login.md)                 | `POST`    | `/users/login`    | Public   |
+| [Authenticate](./endpoints/authenticate.md)   | `GET`     | `/users/me`       | Private  |
